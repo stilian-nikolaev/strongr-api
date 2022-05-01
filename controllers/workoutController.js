@@ -6,19 +6,21 @@ const router = Router();
 
 router.get('/', (req, res) => {
     workoutService.getAll()
-        .then(workouts => res.json(workouts));
+        .then(workouts => res.json(workouts))
+        .catch(err => {
+            res.status(500).json({ message: "Could not get workouts. :(" });
+        });
 })
 
 router.get('/:id', (req, res) => {
     workoutService.getOne(req.params.id)
         .then(workout => {
-            workout && res.json(workout);
-            res.status(401).json({ message: "There is no workout with specified ID" });
+            if (workout) res.json(workout)
+            else res.json({ message: "There is no workout with specified ID" });
         })
         .catch(err => {
-            console.log(err);
-            res.status(401).json({ message: "Invalid ID" })
-        });
+            res.status(400).json({ message: "Invalid ID" })
+        })
 })
 
 router.post('/', (req, res) => {
@@ -31,12 +33,18 @@ router.post('/', (req, res) => {
 
 router.patch('/:id', (req, res) => {
     workoutService.edit(req.params.id, req.body)
-        .then(workout => res.json(workout));
+        .then(workout => res.json(workout))
+        .catch(err => {
+            console.log(err);
+        })
 })
 
 router.delete('/:id', (req, res) => {
     workoutService.delete(req.params.id)
-        .then(workout => res.json(workout));
+        .then(workout => res.json(workout))
+        .catch(err => {
+            console.log(err);
+        })
 })
 
 module.exports = router;
