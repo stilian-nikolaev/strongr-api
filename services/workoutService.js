@@ -12,10 +12,10 @@ module.exports = {
         return workout.save();
     },
     edit(id, reqBody) {
-        return Workout.updateOne(id, reqBody);
+        return Workout.updateOne({ id }, reqBody);
     },
     delete(id) {
-        return Workout.remove(id);
+        return Workout.deleteOne({ id });
     }
 
 }
