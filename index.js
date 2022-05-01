@@ -2,22 +2,15 @@ require('dotenv').config();
 
 const express = require('express')
 
-const routes = require('./routes');
+const routes = require('./routes')
 const configApp = require('./config/express')
+const configDb = require('./config/mongo')
 
 const app = express();
 
-const mongoose = require('mongoose');
+configApp(app)
+configDb()
 
-mongoose.connect(process.env.DATABASE_URL)
+app.use(routes)
 
-const db = mongoose.connection;
-
-db.on('error', (err) => console.log(err))
-db.once('open', () => console.log('open'))
-
-configApp(app);
-
-app.use(routes);
-
-app.listen(5000);
+app.listen(5000)
