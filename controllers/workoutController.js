@@ -33,9 +33,11 @@ router.post('/', (req, res) => {
 
 router.patch('/:id', (req, res) => {
     workoutService.edit(req.params.id, req.body)
-        .then(workout => res.json(workout))
+        .then(workout => {
+            res.json(workout)
+        })
         .catch(err => {
-            console.log(err);
+            res.status(401).json({ message: err.message })
         })
 })
 
@@ -43,7 +45,7 @@ router.delete('/:id', (req, res) => {
     workoutService.delete(req.params.id)
         .then(workout => res.json(workout))
         .catch(err => {
-            console.log(err);
+            res.status(401).json({ message: err.message })
         })
 })
 
