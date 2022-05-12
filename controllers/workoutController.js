@@ -7,8 +7,8 @@ const router = Router();
 router.get('/', (req, res) => {
     workoutService.getAll()
         .then(workouts => res.json(workouts))
-        .catch(err => {
-            res.status(500).json({ message: "Could not get workouts. :(" });
+        .catch(error => {
+            res.status(500).json({error, message: "Could not get workouts. :(" });
         });
 })
 
@@ -18,16 +18,16 @@ router.get('/:id', (req, res) => {
             if (workout) res.json(workout)
             else res.json({ message: "There is no workout with specified ID" });
         })
-        .catch(err => {
-            res.status(400).json({ message: "Invalid ID" })
+        .catch(error => {
+            res.status(400).json({error, message: "Invalid ID" })
         })
 })
 
 router.post('/', (req, res) => {
     workoutService.create(req.body)
         .then(workout => res.status(201).json(workout))
-        .catch(err => {
-            res.status(401).json({ message: err.message })
+        .catch(error => {
+            res.status(401).json({ error })
         });
 })
 
@@ -36,16 +36,16 @@ router.patch('/:id', (req, res) => {
         .then(workout => {
             res.json(workout)
         })
-        .catch(err => {
-            res.status(401).json({ message: err.message })
+        .catch(error => {
+            res.status(401).json({ error })
         })
 })
 
 router.delete('/:id', (req, res) => {
     workoutService.delete(req.params.id)
         .then(workout => res.json(workout))
-        .catch(err => {
-            res.status(401).json({ message: err.message })
+        .catch(error => {
+            res.status(401).json({ error })
         })
 })
 
