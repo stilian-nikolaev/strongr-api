@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
             else res.json({ message: "There is no exercise with specified ID" });
         })
         .catch(error => {
-            res.status(400).json({ message: "Invalid ID" })
+            res.status(400).json({error, message: "Invalid ID" })
         })
 })
 
@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     exerciseService.create(req.body)
         .then(exercise => res.status(201).json(exercise))
         .catch(error => {
-            res.status(401).json({ error })
+            res.status(400).json({ error })
         });
 })
 
@@ -37,7 +37,7 @@ router.patch('/:id', (req, res) => {
             res.json(exercise)
         })
         .catch(error => {
-            res.status(401).json({ error })
+            res.status(400).json({ error })
         })
 })
 
@@ -45,7 +45,7 @@ router.delete('/:id', (req, res) => {
     exerciseService.delete(req.params.id)
         .then(exercise => res.json(exercise))
         .catch(error => {
-            res.status(401).json({ error })
+            res.status(400).json({ error })
         })
 })
 

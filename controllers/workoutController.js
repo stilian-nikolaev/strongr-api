@@ -27,7 +27,7 @@ router.post('/', (req, res) => {
     workoutService.create(req.body)
         .then(workout => res.status(201).json(workout))
         .catch(error => {
-            res.status(401).json({ error })
+            res.status(400).json({ error })
         });
 })
 
@@ -37,7 +37,7 @@ router.patch('/:id', (req, res) => {
             res.json(workout)
         })
         .catch(error => {
-            res.status(401).json({ error })
+            res.status(400).json({ error })
         })
 })
 
@@ -45,7 +45,7 @@ router.delete('/:id', (req, res) => {
     workoutService.delete(req.params.id)
         .then(workout => res.json(workout))
         .catch(error => {
-            res.status(401).json({ error })
+            res.status(400).json({ error })
         })
 })
 
