@@ -1,21 +1,21 @@
-const Workout = require('../models/workout');
+const Exercise = require('../models/exercise');
 
 module.exports = {
     getAll() {
-        return Workout.find()
+        return Exercise.find()
     },
     getOne(id) {
-        return Workout.findById(id);
+        return Exercise.findById(id);
     },
     create(reqBody) {
-        const workout = new Workout({ title: reqBody.title, exercises: reqBody.exercises })
-        return workout.save();
+        const exercise = new Exercise({ title: reqBody.title, sets: reqBody.sets, workoutId: reqBody.workoutId })
+        return exercise.save();
     },
     edit(id, reqBody) {
-        return Workout.updateOne({ id }, reqBody);
+        return Exercise.updateOne({ id }, reqBody);
     },
     delete(id) {
-        return Workout.deleteOne({ id });
+        return Exercise.deleteOne({ id });
     }
 
 }
