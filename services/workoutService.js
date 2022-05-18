@@ -2,10 +2,10 @@ const Workout = require('../models/workout');
 
 module.exports = {
     getAll() {
-        return Workout.find()
+        return Workout.find().populate('exercises')
     },
     getOne(id) {
-        return Workout.findById(id);
+        return Workout.findById(id).populate('exercises');
     },
     create(reqBody) {
         //TODO: validate input
