@@ -1,8 +1,11 @@
 const { Router } = require('express');
 
 const workoutService = require('../services/workoutService');
+const exerciseController = require('./exerciseController');
 
 const router = Router();
+
+router.use('/:id/exercises', exerciseController)
 
 router.get('/', (req, res) => {
     workoutService.getAll()

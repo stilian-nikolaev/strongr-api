@@ -1,8 +1,11 @@
 const { Router } = require('express');
 
 const exerciseService = require('../services/exerciseService');
+const setController = require('./setController');
 
 const router = Router();
+
+router.use('/:id/sets', setController)
 
 router.get('/', (req, res) => {
     exerciseService.getAll()
