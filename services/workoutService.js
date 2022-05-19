@@ -2,10 +2,20 @@ const Workout = require('../models/workout');
 
 module.exports = {
     getAll() {
-        return Workout.find().populate('exercises')
+        return Workout.find().populate({
+            path: 'exercises',
+            populate: {
+                path: 'sets'
+            }
+        })
     },
     getOne(id) {
-        return Workout.findById(id).populate('exercises');
+        return Workout.findById(id).populate({
+            path: 'exercises',
+            populate: {
+                path: 'sets'
+            }
+        });
     },
     create(reqBody) {
         //TODO: validate input
@@ -28,7 +38,7 @@ module.exports = {
 
         currentExercises.push(exerciseId);
 
-        return Workout.updateOne({_id: workoutId}, {exercises: currentExercises})
-    }   
+        return Workout.updateOne({ _id: workoutId }, { exercises: currentExercises })
+    }
 
 }

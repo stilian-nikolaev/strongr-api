@@ -3,10 +3,10 @@ const workoutService = require('./workoutService');
 
 module.exports = {
     getAll() {
-        return Exercise.find()
+        return Exercise.find().populate('sets')
     },
     getOne(id) {
-        return Exercise.findById(id);
+        return Exercise.findById(id).populate('sets');
     },
     async create(reqBody) {
         const workout = await workoutService.getOne(reqBody.workoutId);
@@ -14,7 +14,7 @@ module.exports = {
         if (!workout) throw { message: 'There is no workout with the corresponding ID' }
 
         //TODO: validate input
-        const exercise = new Exercise({ title: reqBody.title, sets: reqBody.sets, workoutId: reqBody.workoutId })
+        const exercise = new Exercise({ title: reqBody.title, unit: reqBody.unit, workoutId: reqBody.workoutId })
 
         await workoutService.addExercise(reqBody.workoutId, exercise._id)
 
@@ -26,6 +26,15 @@ module.exports = {
     },
     delete(id) {
         return Exercise.deleteOne({ id });
+    },
+    async addSet(exerciseId, setId) {
+        const exercise = await Exercise.findById(exerciseId);
+
+        const currentSets = exercise.sets;
+
+        currentSets.push(setId);
+
+        return Exercise.updateOne({ _id: exerciseId }, { sets: currentSets })
     }
 
 }

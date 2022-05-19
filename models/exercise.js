@@ -6,10 +6,12 @@ const exerciseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    sets: {
-        type: Number,
-        required: true
-    }
+    unit: {
+        type: String,
+        default: 'reps'
+    },
+    sets: [{ type: mongoose.Types.ObjectId, ref: 'Set' }]
+
 })
 
 module.exports = mongoose.model('Exercise', exerciseSchema);
