@@ -27,7 +27,9 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    exerciseService.create(req.body)
+    const workoutId = req.baseUrl.split('/')[2];
+
+    exerciseService.create(workoutId, req.body)
         .then(exercise => res.status(201).json(exercise))
         .catch(error => {
             res.status(400).json({ error })

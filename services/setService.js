@@ -8,15 +8,15 @@ module.exports = {
     getOne(id) {
         return Set.findById(id);
     },
-    async create(reqBody) {
-        const exercise = await exerciseService.getOne(reqBody.exerciseId);
+    async create(exerciseId, reqBody) {
+        const exercise = await exerciseService.getOne(exerciseId);
 
         if (!exercise) throw { message: 'There is no exercise with the corresponding ID' }
 
         //TODO: validate input
-        const set = new Set({ amount: reqBody.amount, weight: reqBody.weight, exerciseId: reqBody.exerciseId })
+        const set = new Set({ amount: reqBody.amount, weight: reqBody.weight })
 
-        await exerciseService.addSet(reqBody.exerciseId, set._id)
+        await exerciseService.addSet(exerciseId, set._id)
 
         return set.save();
     },
