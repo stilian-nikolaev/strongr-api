@@ -2,8 +2,14 @@ const Set = require('../models/set');
 const exerciseService = require('./exerciseService');
 
 module.exports = {
-    getAll() {
-        return Set.find()
+    async getAll(exerciseId) {
+        if (!exerciseId) {
+            return Set.find();
+        }
+
+        const exercise = await exerciseService.getOne(exerciseId);
+
+        return exercise.sets;
     },
     getOne(id) {
         return Set.findById(id);

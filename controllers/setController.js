@@ -5,7 +5,9 @@ const setService = require('../services/setService');
 const router = Router();
 
 router.get('/', (req, res) => {
-    setService.getAll()
+    const exerciseId = req.baseUrl.split('/')[4];
+
+    setService.getAll(exerciseId)
         .then(sets => res.json(sets))
         .catch(error => {
             res.status(500).json({ error, message: "Could not get sets. :(" });
