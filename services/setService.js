@@ -8,6 +8,7 @@ module.exports = {
         }
 
         const exercise = await exerciseService.getOne(exerciseId);
+        //if(!exercise) ?
 
         return exercise.sets;
     },
