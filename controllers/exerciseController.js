@@ -8,7 +8,9 @@ const router = Router();
 router.use('/:id/sets', setController)
 
 router.get('/', (req, res) => {
-    exerciseService.getAll()
+    const workoutId = req.baseUrl.split('/')[2];
+
+    exerciseService.getAll(workoutId)
         .then(exercises => res.json(exercises))
         .catch(error => {
             res.status(500).json({ error, message: "Could not get exercises. :(" });

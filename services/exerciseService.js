@@ -2,8 +2,16 @@ const Exercise = require('../models/exercise');
 const workoutService = require('./workoutService');
 
 module.exports = {
-    getAll() {
-        return Exercise.find().populate('sets')
+    async getAll(workoutId) {
+        if (!workoutId) {
+            return Exercise.find().populate('sets')
+        }
+
+        const workout = await workoutService.getOne(workoutId);
+
+        //if(!workout) ?
+
+        return workout.exercises;
     },
     getOne(id) {
         return Exercise.findById(id).populate('sets');
