@@ -26,10 +26,10 @@ module.exports = {
     edit(id, reqBody) {
         //TODO: validate input
 
-        return Workout.findByIdAndUpdate(id , reqBody);
+        return Workout.findByIdAndUpdate(id, reqBody);
     },
     delete(id) {
-        return Workout.deleteOne({ id });
+        return Workout.findByIdAndDelete(id);
     },
     async addExercise(workoutId, exerciseId) {
         const workout = await Workout.findById(workoutId);

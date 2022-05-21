@@ -22,7 +22,7 @@ module.exports = {
         if (!workout) throw { message: 'There is no workout with the corresponding ID' }
 
         //TODO: validate input
-        const exercise = new Exercise({ title: reqBody.title})
+        const exercise = new Exercise({ title: reqBody.title })
 
         await workoutService.addExercise(workoutId, exercise._id)
 
@@ -31,10 +31,10 @@ module.exports = {
     edit(id, reqBody) {
         //TODO: validate input
         console.log(reqBody);
-        return Exercise.findByIdAndUpdate( id, reqBody);
+        return Exercise.findByIdAndUpdate(id, reqBody);
     },
     delete(id) {
-        return Exercise.deleteOne({ id });
+        return Exercise.findByIdAndDelete(id);
     },
     async addSet(exerciseId, setId) {
         const exercise = await Exercise.findById(exerciseId);
