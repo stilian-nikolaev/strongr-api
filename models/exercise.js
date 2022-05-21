@@ -5,10 +5,6 @@ const exerciseSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    unit: {
-        type: String,
-        default: 'reps'
-    },
     sets: [{ type: mongoose.Types.ObjectId, ref: 'Set' }]
 
 })
