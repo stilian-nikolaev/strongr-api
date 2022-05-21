@@ -21,7 +21,7 @@ module.exports = {
         if (!exercise) throw { message: 'There is no exercise with the corresponding ID' }
 
         //TODO: validate input
-        const set = new Set({ amount: reqBody.amount, weight: reqBody.weight })
+        const set = new Set({ amount: reqBody.amount, weight: reqBody.weight, unit: reqBody.unit })
 
         await exerciseService.addSet(exerciseId, set._id)
 
@@ -29,10 +29,10 @@ module.exports = {
     },
     edit(id, reqBody) {
         //TODO: validate input
-        return Set.updateOne({ id }, reqBody);
+        return Set.findByIdAndUpdate(id, reqBody);
     },
     delete(id) {
-        return Set.deleteOne({ id });
+        return Set.findByIdAndDelete(id);
     }
 
 }

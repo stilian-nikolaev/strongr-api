@@ -26,7 +26,7 @@ module.exports = {
     edit(id, reqBody) {
         //TODO: validate input
 
-        return Workout.updateOne({ id }, reqBody);
+        return Workout.findByIdAndUpdate(id , reqBody);
     },
     delete(id) {
         return Workout.deleteOne({ id });

@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
 router.patch('/:id', (req, res) => {
     workoutService.edit(req.params.id, req.body)
         .then(workout => {
-            res.json(workout)
+            res.json({message: 'edited successfully'})
         })
         .catch(error => {
             res.status(400).json({ error })
@@ -46,7 +46,7 @@ router.patch('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     workoutService.delete(req.params.id)
-        .then(workout => res.json(workout))
+        .then(workout => res.json({message: 'deleted successfully'}))
         .catch(error => {
             res.status(400).json({ error })
         })

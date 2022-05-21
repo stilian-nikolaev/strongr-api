@@ -38,7 +38,7 @@ router.post('/', (req, res) => {
 router.patch('/:id', (req, res) => {
     setService.edit(req.params.id, req.body)
         .then(set => {
-            res.json(set)
+            res.json({message: 'edited successfully'})
         })
         .catch(error => {
             res.status(400).json({ error })
@@ -47,7 +47,7 @@ router.patch('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     setService.delete(req.params.id)
-        .then(set => res.json(set))
+        .then(set => res.json({message: 'deleted successfully'}))
         .catch(error => {
             res.status(400).json({ error })
         })
