@@ -34,6 +34,8 @@ module.exports = {
         return Exercise.findByIdAndUpdate(id, reqBody);
     },
     delete(id) {
+        //TODO: delete all sets
+
         return Exercise.findByIdAndDelete(id);
     },
     async addSet(exerciseId, setId) {

@@ -29,6 +29,8 @@ module.exports = {
         return Workout.findByIdAndUpdate(id, reqBody);
     },
     delete(id) {
+        //TODO: delete all exercises
+
         return Workout.findByIdAndDelete(id);
     },
     async addExercise(workoutId, exerciseId) {
