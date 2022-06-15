@@ -13,7 +13,7 @@ router.post('/register', (req, res) => {
 
 router.post('/login', (req, res) => {
     authService.login(req.body)
-        .then((user) => res.json(user))
+        .then((token) => res.json(token))
         .catch(error => {
             res.status(400).json({ error })
         });

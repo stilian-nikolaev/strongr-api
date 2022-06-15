@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/user');
-
+const jwt = require('jsonwebtoken');
 
 module.exports = {
     async register(reqBody) {
@@ -23,8 +23,10 @@ module.exports = {
         }
 
         if (await bcrypt.compare(reqBody.password, user.password)) {
-            console.log('log');
-            return user
+            
+            const accessToken = jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET)
+
+            return accessToken
         } else {
             throw { message: 'Wrong password' }
         }
