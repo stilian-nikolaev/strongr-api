@@ -2,12 +2,15 @@ const { Router } = require('express');
 
 const workoutService = require('../services/workoutService');
 const exerciseController = require('./exerciseController');
+const authenticate = require('../middlewares/authenticate');
 
 const router = Router();
 
 router.use('/:id/exercises', exerciseController)
 
-router.get('/', (req, res) => {
+router.get('/', authenticate, (req, res) => {
+    console.log(req.user);
+
     workoutService.getAll()
         .then(workouts => res.json(workouts))
         .catch(error => {

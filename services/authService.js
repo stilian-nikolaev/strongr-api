@@ -2,6 +2,10 @@ const bcrypt = require('bcrypt');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
+function generateAccessToken(user) {
+    return jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' })
+}
+
 module.exports = {
     async register(reqBody) {
         if (reqBody.password !== reqBody.repeatPassword) {
@@ -23,10 +27,13 @@ module.exports = {
         }
 
         if (await bcrypt.compare(reqBody.password, user.password)) {
-            
-            const accessToken = jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET)
 
-            return accessToken
+            const accessToken = generateAccessToken(user);
+            // console.log(accessToken)
+            // const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET)
+            // console.log(refreshToken);
+
+            return { accessToken }
         } else {
             throw { message: 'Wrong password' }
         }
