@@ -1,4 +1,5 @@
 const Exercise = require('../models/exercise');
+const deleteService = require('./helpers/deleteService');
 const workoutService = require('./workoutService');
 
 module.exports = {
@@ -33,8 +34,8 @@ module.exports = {
         console.log(reqBody);
         return Exercise.findByIdAndUpdate(id, reqBody);
     },
-    delete(id) {
-        //TODO: delete all sets
+    async delete(id) {
+        await deleteService.deleteSets(id)
 
         return Exercise.findByIdAndDelete(id);
     },

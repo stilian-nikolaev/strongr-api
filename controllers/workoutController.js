@@ -8,7 +8,7 @@ const router = Router();
 
 router.use('/:id/exercises', exerciseController)
 
-router.get('/', authenticate, (req, res) => {
+router.get('/', /*authenticate,*/  (req, res) => {
     console.log(req.user);
 
     workoutService.getAll()
