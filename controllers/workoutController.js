@@ -8,17 +8,16 @@ const router = Router();
 
 router.use('/:id/exercises', exerciseController)
 
-router.get('/', /*authenticate,*/  (req, res) => {
-    console.log(req.user);
-
-    workoutService.getAll()
+router.get('/', authenticate, (req, res) => {
+ 
+    workoutService.getAll(/*req.user._id*/)
         .then(workouts => res.json(workouts))
         .catch(error => {
             res.status(500).json({error, message: "Could not get workouts. :(" });
         });
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticate, (req, res) => {
     workoutService.getOne(req.params.id)
         .then(workout => {
             if (workout) res.json(workout)
@@ -29,7 +28,7 @@ router.get('/:id', (req, res) => {
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', authenticate, (req, res) => {
     workoutService.create(req.body)
         .then(workout => res.status(201).json(workout))
         .catch(error => {
@@ -37,7 +36,7 @@ router.post('/', (req, res) => {
         });
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', authenticate, (req, res) => {
     workoutService.edit(req.params.id, req.body)
         .then(workout => {
             res.json({message: 'edited successfully'})
@@ -47,7 +46,7 @@ router.patch('/:id', (req, res) => {
         })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authenticate, (req, res) => {
     workoutService.delete(req.params.id)
         .then(workout => res.json({message: 'deleted successfully'}))
         .catch(error => {

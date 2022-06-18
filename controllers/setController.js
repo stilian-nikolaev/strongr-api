@@ -1,10 +1,11 @@
 const { Router } = require('express');
+const authenticate = require('../middlewares/authenticate');
 
 const setService = require('../services/setService');
 
 const router = Router();
 
-router.get('/', (req, res) => {
+router.get('/', authenticate, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.getAll(exerciseId)
@@ -14,7 +15,7 @@ router.get('/', (req, res) => {
         });
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticate, (req, res) => {
     setService.getOne(req.params.id)
         .then(set => {
             if (set) res.json(set)
@@ -25,7 +26,7 @@ router.get('/:id', (req, res) => {
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', authenticate, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.create(exerciseId, req.body)
@@ -35,7 +36,7 @@ router.post('/', (req, res) => {
         });
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', authenticate, (req, res) => {
     setService.edit(req.params.id, req.body)
         .then(set => {
             res.json({message: 'edited successfully'})
@@ -45,7 +46,7 @@ router.patch('/:id', (req, res) => {
         })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authenticate, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.delete(req.params.id, exerciseId)

@@ -2,7 +2,7 @@ const Workout = require('../models/workout');
 const deleteService = require('./helpers/deleteService');
 
 module.exports = {
-    getAll() {
+    getAll(userId) {
         return Workout.find().populate({
             path: 'exercises',
             populate: {
