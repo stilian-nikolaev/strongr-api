@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const workoutSchema = new mongoose.Schema({
+    creatorId: {
+        type: mongoose.Types.ObjectId,
+        required: true
+    },
     title: {
         type: String,
         required: true

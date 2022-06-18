@@ -3,7 +3,7 @@ const deleteService = require('./helpers/deleteService');
 
 module.exports = {
     getAll(userId) {
-        return Workout.find().populate({
+        return Workout.find({creatorId: userId}).populate({
             path: 'exercises',
             populate: {
                 path: 'sets'
@@ -18,10 +18,10 @@ module.exports = {
             }
         });
     },
-    create(reqBody) {
+    create(reqBody, userId) {
         //TODO: validate input
 
-        const workout = new Workout({ title: reqBody.title, exercises: reqBody.exercises })
+        const workout = new Workout({ title: reqBody.title, exercises: reqBody.exercises, creatorId: userId })
         return workout.save();
     },
     edit(id, reqBody) {
