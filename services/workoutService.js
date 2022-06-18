@@ -43,6 +43,13 @@ module.exports = {
         currentExercises.push(exerciseId);
 
         return Workout.updateOne({ _id: workoutId }, { exercises: currentExercises })
-    }
+    },
+    async removeExercise(workoutId, exerciseId) {
+        const workout = await Workout.findById(workoutId);
+
+        const filteredExercises = workout.exercises.filter(x => x != exerciseId)
+
+        return Workout.updateOne({ _id: workoutId }, { exercises: filteredExercises })
+    },
 
 }

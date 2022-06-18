@@ -1,4 +1,5 @@
 const Exercise = require('../models/exercise');
+const set = require('../models/set');
 const deleteService = require('./helpers/deleteService');
 const workoutService = require('./workoutService');
 
@@ -34,8 +35,10 @@ module.exports = {
         console.log(reqBody);
         return Exercise.findByIdAndUpdate(id, reqBody);
     },
-    async delete(id) {
+    async delete(id, workoutId) {
         await deleteService.deleteSets(id)
+
+        await workoutService.removeExercise(workoutId, id);
 
         return Exercise.findByIdAndDelete(id);
     },
@@ -47,6 +50,18 @@ module.exports = {
         currentSets.push(setId);
 
         return Exercise.updateOne({ _id: exerciseId }, { sets: currentSets })
+    },
+    async removeSet(exerciseId, setId) {
+        const exercise = await Exercise.findById(exerciseId);
+
+        const filteredSets = exercise.sets.filter(x => x != setId)
+
+        console.log(`filtered: ${filteredSets}`);
+        console.log(`exercise id: ${exerciseId}`);
+        console.log(`set id: ${setId}`);
+
+        return Exercise.updateOne({ _id: exerciseId }, { sets: filteredSets })
     }
+
 
 }

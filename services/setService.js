@@ -31,7 +31,9 @@ module.exports = {
         //TODO: validate input
         return Set.findByIdAndUpdate(id, reqBody);
     },
-    delete(id) {
+    async delete(id, exerciseId) {
+        await exerciseService.removeSet(exerciseId, id)
+
         return Set.findByIdAndDelete(id);
     }
 

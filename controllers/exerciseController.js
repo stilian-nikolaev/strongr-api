@@ -49,7 +49,9 @@ router.patch('/:id', (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-    exerciseService.delete(req.params.id)
+    const workoutId = req.baseUrl.split('/')[2];
+    
+    exerciseService.delete(req.params.id, workoutId)
         .then(exercise => res.json({message: 'deleted successfully'}))
         .catch(error => {
             res.status(400).json({ error })

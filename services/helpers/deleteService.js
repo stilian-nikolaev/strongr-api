@@ -14,6 +14,6 @@ module.exports = {
     async deleteSets(exerciseId) {
         const exercise = await Exercise.findById(exerciseId)
 
-        exercise.sets.forEach(async (setId) => Set.findByIdAndDelete(setId));
+        exercise?.sets.forEach(async (setId) => Set.findByIdAndDelete(setId));
     }
 }
