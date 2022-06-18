@@ -29,7 +29,7 @@ router.get('/:id', authenticate, authorize, (req, res) => {
 })
 
 router.post('/', authenticate, (req, res) => {
-    workoutService.create(req.body)
+    workoutService.create(req.body, req.user.id)
         .then(workout => res.status(201).json(workout))
         .catch(error => {
             res.status(400).json({ error })
