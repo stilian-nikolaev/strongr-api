@@ -1,11 +1,11 @@
 const Exercise = require('../models/exercise');
-const set = require('../models/set');
 const deleteService = require('./helpers/deleteService');
 const workoutService = require('./workoutService');
 
 module.exports = {
     async getAll(workoutId) {
         if (!workoutId) {
+            //do we want that?
             return Exercise.find().populate('sets')
         }
 

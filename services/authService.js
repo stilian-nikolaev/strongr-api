@@ -3,7 +3,7 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 function generateAccessToken(user) {
-    return jwt.sign({ name: user.name }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' })
+    return jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' })
 }
 
 module.exports = {
@@ -33,7 +33,7 @@ module.exports = {
             // const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET)
             // console.log(refreshToken);
 
-            return { accessToken }
+            return accessToken;
         } else {
             throw { message: 'Wrong password' }
         }
