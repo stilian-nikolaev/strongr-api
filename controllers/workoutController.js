@@ -3,6 +3,7 @@ const { Router } = require('express');
 const workoutService = require('../services/workoutService');
 const exerciseController = require('./exerciseController');
 const authenticate = require('../middlewares/authenticate');
+const authorize = require('../middlewares/authorize');
 
 const router = Router();
 
@@ -17,26 +18,26 @@ router.get('/', authenticate, (req, res) => {
         });
 })
 
-router.get('/:id', authenticate, (req, res) => {
-    workoutService.getOne(req.params.id, req.user.id)
+router.get('/:id', authenticate, authorize, (req, res) => {
+    workoutService.getOne(req.params.id)
         .then(workout => {
             if (workout) res.json(workout)
             else res.json({ message: "There is no workout with specified ID" });
         })
         .catch(error => {
-            res.status(400).json({error, message: "Invalid ID" })
+            res.status(400).json({error})
         })
 })
 
 router.post('/', authenticate, (req, res) => {
-    workoutService.create(req.body, req.user.id)
+    workoutService.create(req.body)
         .then(workout => res.status(201).json(workout))
         .catch(error => {
             res.status(400).json({ error })
         });
 })
 
-router.patch('/:id', authenticate, (req, res) => {
+router.patch('/:id', authenticate, authorize, (req, res) => {
     workoutService.edit(req.params.id, req.body)
         .then(workout => {
             res.json({message: 'edited successfully'})
@@ -46,7 +47,7 @@ router.patch('/:id', authenticate, (req, res) => {
         })
 })
 
-router.delete('/:id', authenticate, (req, res) => {
+router.delete('/:id', authenticate, authorize, (req, res) => {
     workoutService.delete(req.params.id)
         .then(workout => res.json({message: 'deleted successfully'}))
         .catch(error => {

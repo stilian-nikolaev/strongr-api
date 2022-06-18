@@ -10,13 +10,15 @@ module.exports = {
             }
         })
     },
-    getOne(id) {
-        return Workout.findById(id).populate({
+    async getOne(id) {
+        const workout = await Workout.findById(id).populate({
             path: 'exercises',
             populate: {
                 path: 'sets'
             }
         });
+
+        return workout;
     },
     create(reqBody, userId) {
         //TODO: validate input
@@ -24,8 +26,9 @@ module.exports = {
         const workout = new Workout({ title: reqBody.title, exercises: reqBody.exercises, creatorId: userId })
         return workout.save();
     },
-    edit(id, reqBody) {
+    async edit(id, reqBody, userId) {
         //TODO: validate input
+        const workout = await Workout.findById(id)
 
         return Workout.findByIdAndUpdate(id, reqBody);
     },

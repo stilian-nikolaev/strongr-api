@@ -3,13 +3,13 @@ const deleteService = require('./helpers/deleteService');
 const workoutService = require('./workoutService');
 
 module.exports = {
-    async getAll(workoutId) {
+    async getAll(workoutId, userId) {
         if (!workoutId) {
             //do we want that?
             return Exercise.find().populate('sets')
         }
 
-        const workout = await workoutService.getOne(workoutId);
+        const workout = await workoutService.getOne(workoutId, userId);
 
         //if(!workout) ?
 
@@ -18,8 +18,8 @@ module.exports = {
     getOne(id) {
         return Exercise.findById(id).populate('sets');
     },
-    async create(workoutId, reqBody) {
-        const workout = await workoutService.getOne(workoutId);
+    async create(workoutId, reqBody, userId) {
+        const workout = await workoutService.getOne(workoutId, userId);
 
         if (!workout) throw { message: 'There is no workout with the corresponding ID' }
 
@@ -55,10 +55,6 @@ module.exports = {
         const exercise = await Exercise.findById(exerciseId);
 
         const filteredSets = exercise.sets.filter(x => x != setId)
-
-        console.log(`filtered: ${filteredSets}`);
-        console.log(`exercise id: ${exerciseId}`);
-        console.log(`set id: ${setId}`);
 
         return Exercise.updateOne({ _id: exerciseId }, { sets: filteredSets })
     }
