@@ -12,7 +12,7 @@ router.use('/:id/sets', setController)
 router.get('/', authenticate, authorize, (req, res) => {
     const workoutId = req.baseUrl.split('/')[2];
 
-    exerciseService.getAll(workoutId, req.user.id)
+    exerciseService.getAll(workoutId)
         .then(exercises => res.json(exercises))
         .catch(error => {
             res.status(500).json({ error, message: "Could not get exercises. :(" });
@@ -20,7 +20,7 @@ router.get('/', authenticate, authorize, (req, res) => {
 })
 
 router.get('/:id', authenticate, authorize, (req, res) => {
-    exerciseService.getOne(req.params.id, req.user.id)
+    exerciseService.getOne(req.params.id)
         .then(exercise => {
             if (exercise) res.json(exercise)
             else res.json({ message: "There is no exercise with specified ID" });
@@ -33,7 +33,7 @@ router.get('/:id', authenticate, authorize, (req, res) => {
 router.post('/', authenticate, authorize, (req, res) => {
     const workoutId = req.baseUrl.split('/')[2];
 
-    exerciseService.create(workoutId, req.body, req.user.id)
+    exerciseService.create(workoutId, req.body)
         .then(exercise => res.status(201).json(exercise))
         .catch(error => {
             res.status(400).json({ error })

@@ -10,7 +10,6 @@ const router = Router();
 router.use('/:id/exercises', exerciseController)
 
 router.get('/', authenticate, (req, res) => {
- 
     workoutService.getAll(req.user.id)
         .then(workouts => res.json(workouts))
         .catch(error => {
