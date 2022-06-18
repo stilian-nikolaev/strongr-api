@@ -30,7 +30,7 @@ router.get('/:id', authenticate, authorize, (req, res) => {
         })
 })
 
-router.post('/', authenticate, (req, res) => {
+router.post('/', authenticate, authorize, (req, res) => {
     const workoutId = req.baseUrl.split('/')[2];
 
     exerciseService.create(workoutId, req.body, req.user.id)

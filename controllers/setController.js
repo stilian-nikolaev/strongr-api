@@ -27,7 +27,7 @@ router.get('/:id', authenticate, authorize, (req, res) => {
         })
 })
 
-router.post('/', authenticate, (req, res) => {
+router.post('/', authenticate, authorize, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.create(exerciseId, req.body)
