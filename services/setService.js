@@ -3,35 +3,42 @@ const exerciseService = require('./exerciseService');
 
 module.exports = {
     async getAll(exerciseId) {
-        if (!exerciseId) {
-            return Set.find();
-        }
-
         const exercise = await exerciseService.getOne(exerciseId);
-        //if(!exercise) ?
 
         return exercise.sets;
     },
-    getOne(id) {
-        return Set.findById(id);
+    async getOne(id) {
+        let set;
+
+        try {
+            set = await Set.findById(id);
+        } catch (error) {
+            throw { message: 'Invalid set ID' }
+        }
+
+        if (!set) {
+            throw { message: 'There is no set with specified ID' }
+        }
+
+        return set;
     },
     async create(exerciseId, reqBody) {
-        const exercise = await exerciseService.getOne(exerciseId);
+        await exerciseService.getOne(exerciseId);
 
-        if (!exercise) throw { message: 'There is no exercise with the corresponding ID' }
-
-        //TODO: validate input
         const set = new Set({ amount: reqBody.amount, weight: reqBody.weight, unit: reqBody.unit })
 
         await exerciseService.addSet(exerciseId, set._id)
 
         return set.save();
     },
-    edit(id, reqBody) {
-        //TODO: validate input
+    async edit(id, reqBody) {
+        await this.getOne(id)
+
         return Set.findByIdAndUpdate(id, reqBody);
     },
     async delete(id, exerciseId) {
+        await this.getOne(id)
+
         await exerciseService.removeSet(exerciseId, id)
 
         return Set.findByIdAndDelete(id);
