@@ -7,9 +7,11 @@ const authorize = require('../middlewares/authorize');
 
 const router = Router();
 
-router.use('/:id/exercises', exerciseController)
+router.use(authenticate);
 
-router.get('/', authenticate, (req, res) => {
+router.use('/:id/exercises', exerciseController);
+
+router.get('/', (req, res) => {
     workoutService.getAll(req.user.id)
         .then(workouts => res.json(workouts))
         .catch(error => {
@@ -17,7 +19,7 @@ router.get('/', authenticate, (req, res) => {
         });
 })
 
-router.get('/:id', authenticate, authorize, (req, res) => {
+router.get('/:id', authorize, (req, res) => {
     workoutService.getOne(req.params.id)
         .then(workout => {
             if (workout) res.json(workout)
@@ -28,7 +30,7 @@ router.get('/:id', authenticate, authorize, (req, res) => {
         })
 })
 
-router.post('/', authenticate, (req, res) => {
+router.post('/', (req, res) => {
     workoutService.create(req.body, req.user.id)
         .then(workout => res.status(201).json(workout))
         .catch(error => {
@@ -36,7 +38,7 @@ router.post('/', authenticate, (req, res) => {
         });
 })
 
-router.patch('/:id', authenticate, authorize, (req, res) => {
+router.patch('/:id', authorize, (req, res) => {
     workoutService.edit(req.params.id, req.body)
         .then(workout => {
             res.json({message: 'edited successfully'})
@@ -46,7 +48,7 @@ router.patch('/:id', authenticate, authorize, (req, res) => {
         })
 })
 
-router.delete('/:id', authenticate, authorize, (req, res) => {
+router.delete('/:id', authorize, (req, res) => {
     workoutService.delete(req.params.id)
         .then(workout => res.json({message: 'deleted successfully'}))
         .catch(error => {

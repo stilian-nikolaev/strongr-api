@@ -11,7 +11,7 @@ module.exports = {
         const existingUser = User.findOne({ email: reqBody.email });
 
         if (existingUser) {
-            throw { message: 'There is an existing acount registered with this email'}
+            throw { message: 'There is an existing acount registered with this email' }
         }
 
         if (reqBody.password !== reqBody.repeatPassword) {
@@ -32,16 +32,16 @@ module.exports = {
             throw { message: 'User not found!' }
         }
 
-        if (await bcrypt.compare(reqBody.password, user.password)) {
-
-            const accessToken = generateAccessToken(user);
-            // console.log(accessToken)
-            // const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET)
-            // console.log(refreshToken);
-
-            return accessToken;
-        } else {
+        if (!await bcrypt.compare(reqBody.password, user.password)) {
             throw { message: 'Wrong password' }
         }
+        
+        const accessToken = generateAccessToken(user);
+        // console.log(accessToken)
+        // const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET)
+        // console.log(refreshToken);
+
+        return accessToken;
+
     }
 }
