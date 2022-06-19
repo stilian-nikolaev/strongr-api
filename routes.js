@@ -8,5 +8,8 @@ router.use('/workouts', workoutController);
 router.get('*', (req, res) => {
     res.status(404).send('Not Found');
 });
+router.all('*', (req, res) => {
+    res.status(400).send('Method not supported for this route');
+});
 
 module.exports = router;
