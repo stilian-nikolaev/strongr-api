@@ -4,38 +4,40 @@ const workoutService = require('./workoutService');
 
 module.exports = {
     async getAll(workoutId) {
-        if (!workoutId) {
-            //do we want that?
-            return Exercise.find().populate('sets')
-        }
-
         const workout = await workoutService.getOne(workoutId);
-
-        //if(!workout) ?
 
         return workout.exercises;
     },
-    getOne(id) {
-        return Exercise.findById(id).populate('sets');
+    async getOne(id) {
+        let exercise;
+
+        try {
+            exercise = await Exercise.findById(id).populate('sets');
+        } catch (error) {
+            throw { message: 'Invalid exercise ID' }
+        }
+
+        if (!exercise) {
+            throw { message: 'There is no exercise with specified ID' }
+        }
+
+        return exercise;
     },
     async create(workoutId, reqBody) {
-        const workout = await workoutService.getOne(workoutId);
-
-        if (!workout) throw { message: 'There is no workout with the corresponding ID' }
-
-        //TODO: validate input
         const exercise = new Exercise({ title: reqBody.title })
 
         await workoutService.addExercise(workoutId, exercise._id)
 
         return exercise.save();
     },
-    edit(id, reqBody) {
-        //TODO: validate input
-        console.log(reqBody);
+    async edit(id, reqBody) {
+        await this.getOne(id)
+
         return Exercise.findByIdAndUpdate(id, reqBody);
     },
     async delete(id, workoutId) {
+        await this.getOne(id)
+
         await deleteService.deleteSets(id)
 
         await workoutService.removeExercise(workoutId, id);

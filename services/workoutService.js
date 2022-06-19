@@ -21,7 +21,7 @@ module.exports = {
                 }
             })
         } catch (error) {
-            throw { message: 'Invalid ID', error }
+            throw { message: 'Invalid workout ID' }
         }
 
 
