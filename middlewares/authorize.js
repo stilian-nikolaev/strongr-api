@@ -1,11 +1,15 @@
 const workoutService = require("../services/workoutService");
 
-module.exports = async (req, res, next) => {
+module.exports = (req, res, next) => {
     const workoutId = req.originalUrl.split('/')[2];
 
-    const workout = await workoutService.getOne(workoutId);
+    workoutService.getOne(workoutId)
+        .then(workout => {
+            if (workout.creatorId !== req.user.id) return res.sendStatus(403);
 
-    if (workout.creatorId !== req.user.id) return res.sendStatus(403);
-    
-    next()
+            next()
+        })
+        .catch(error => res.json(error));
+
+
 }

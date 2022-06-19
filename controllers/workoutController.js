@@ -4,6 +4,7 @@ const workoutService = require('../services/workoutService');
 const exerciseController = require('./exerciseController');
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/authorize');
+const validateWorkout = require('../middlewares/validateWorkout');
 
 const router = Router();
 
@@ -15,33 +16,31 @@ router.get('/', (req, res) => {
     workoutService.getAll(req.user.id)
         .then(workouts => res.json(workouts))
         .catch(error => {
-            res.status(500).json({error, message: "Could not get workouts. :(" });
+            res.status(500).json(error);
         });
 })
 
 router.get('/:id', authorize, (req, res) => {
     workoutService.getOne(req.params.id)
-        .then(workout => {
-            if (workout) res.json(workout)
-            else res.json({ message: "There is no workout with specified ID" });
-        })
+        .then(workout => res.json(workout))
         .catch(error => {
-            res.status(400).json({error})
+            res.status(400).json(error)
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', validateWorkout, (req, res) => {
     workoutService.create(req.body, req.user.id)
         .then(workout => res.status(201).json(workout))
         .catch(error => {
-            res.status(400).json({ error })
+            res.status(400).json(error)
         });
 })
 
-router.patch('/:id', authorize, (req, res) => {
+router.patch('/:id', authorize, validateWorkout, (req, res) => {
     workoutService.edit(req.params.id, req.body)
         .then(workout => {
-            res.json({message: 'edited successfully'})
+            console.log(workout)
+            res.json({ message: 'edited successfully' })
         })
         .catch(error => {
             res.status(400).json({ error })
@@ -50,7 +49,7 @@ router.patch('/:id', authorize, (req, res) => {
 
 router.delete('/:id', authorize, (req, res) => {
     workoutService.delete(req.params.id)
-        .then(workout => res.json({message: 'deleted successfully'}))
+        .then(workout => res.json({ message: 'deleted successfully' }))
         .catch(error => {
             res.status(400).json({ error })
         })

@@ -3,7 +3,7 @@ const deleteService = require('./helpers/deleteService');
 
 module.exports = {
     getAll(userId) {
-        return Workout.find({creatorId: userId}).populate({
+        return Workout.find({ creatorId: userId }).populate({
             path: 'exercises',
             populate: {
                 path: 'sets'
@@ -11,29 +11,35 @@ module.exports = {
         })
     },
     async getOne(id) {
-        const workout = await Workout.findById(id).populate({
-            path: 'exercises',
-            populate: {
-                path: 'sets'
-            }
-        });
+        let workout;
+
+        try {
+            workout = await Workout.findById(id).populate({
+                path: 'exercises',
+                populate: {
+                    path: 'sets'
+                }
+            })
+        } catch (error) {
+            throw { message: 'Invalid ID', error }
+        }
+
+
+        if (!workout) {
+            throw { message: 'There is no workout with specified ID' }
+        }
 
         return workout;
     },
     create(reqBody, userId) {
-        //TODO: validate input
+        const workout = new Workout({ title: reqBody.title, creatorId: userId })
 
-        const workout = new Workout({ title: reqBody.title, exercises: reqBody.exercises, creatorId: userId })
         return workout.save();
     },
-    async edit(id, reqBody, userId) {
-        //TODO: validate input
-        const workout = await Workout.findById(id)
-
+    async edit(id, reqBody) {
         return Workout.findByIdAndUpdate(id, reqBody);
     },
     async delete(id) {
-        //TODO: delete all exercises
         await deleteService.deleteExercises(id)
 
         return Workout.findByIdAndDelete(id);
@@ -45,14 +51,14 @@ module.exports = {
 
         currentExercises.push(exerciseId);
 
-        return Workout.updateOne({ _id: workoutId }, { exercises: currentExercises })
+        return Workout.findByIdAndUpdate(workoutId, { exercises: currentExercises })
     },
     async removeExercise(workoutId, exerciseId) {
         const workout = await Workout.findById(workoutId);
 
         const filteredExercises = workout.exercises.filter(x => x != exerciseId)
 
-        return Workout.updateOne({ _id: workoutId }, { exercises: filteredExercises })
+        return Workout.findByIdAndUpdate(workoutId, { exercises: filteredExercises })
     },
 
 }
