@@ -8,6 +8,12 @@ function generateAccessToken(user) {
 
 module.exports = {
     async register(reqBody) {
+        const existingUser = User.findOne({ email: reqBody.email });
+
+        if (existingUser) {
+            throw { message: 'There is an existing acount registered with this email'}
+        }
+
         if (reqBody.password !== reqBody.repeatPassword) {
             throw { message: 'Passwords missmatch!' }
         }
