@@ -6,10 +6,7 @@ const setService = require('../services/setService');
 
 const router = Router();
 
-router.use(authenticate);
-router.use(authorize);
-
-router.get('/', (req, res) => {
+router.get('/', authenticate, authorize, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.getAll(exerciseId)
@@ -19,18 +16,18 @@ router.get('/', (req, res) => {
         });
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticate, authorize, (req, res) => {
     setService.getOne(req.params.id)
         .then(set => {
             if (set) res.json(set)
             else res.json({ message: "There is no set with specified ID" });
         })
         .catch(error => {
-            res.status(400).json({error, message: "Invalid ID" })
+            res.status(400).json({ error, message: "Invalid ID" })
         })
 })
 
-router.post('/', (req, res) => {
+router.post('/', authenticate, authorize, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.create(exerciseId, req.body)
@@ -40,21 +37,21 @@ router.post('/', (req, res) => {
         });
 })
 
-router.patch('/:id', (req, res) => {
+router.patch('/:id', authenticate, authorize, (req, res) => {
     setService.edit(req.params.id, req.body)
         .then(set => {
-            res.json({message: 'edited successfully'})
+            res.json({ message: 'edited successfully' })
         })
         .catch(error => {
             res.status(400).json({ error })
         })
 })
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', authenticate, authorize, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.delete(req.params.id, exerciseId)
-        .then(set => res.json({message: 'deleted successfully'}))
+        .then(set => res.json({ message: 'deleted successfully' }))
         .catch(error => {
             res.status(400).json({ error })
         })
