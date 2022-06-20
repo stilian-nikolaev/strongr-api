@@ -40,10 +40,31 @@ module.exports = {
             unit: Joi.string().valid('reps', 'sec', 'min').required(),
         })
 
-        const { error } = validationSchema.validate({amount: req.body.amount, weight: req.body.weight, unit: req.body.unit})
+        const { error } = validationSchema.validate({ amount: req.body.amount, weight: req.body.weight, unit: req.body.unit })
 
         if (error) {
             return res.json({ message: error.details.map(x => x.message).join(', ') })
+        }
+
+        next()
+    },
+    validateUser: (req, res, next) => {
+        const validationSchema = Joi.object({
+            email: Joi.string().email().required(),
+            password: Joi.string().required(),
+            repeatPassword: Joi.string().required(),
+            name: Joi.string().required(),
+        })
+
+        const { error } = validationSchema.validate({
+            email: req.body.email,
+            password: req.body.password,
+            repeatPassword: req.body.repeatPassword,
+            name: req.body.name
+        })
+
+        if (error) {
+            return res.status(400).json({ message: error.details.map(x => x.message).join(', ') })
         }
 
         next()

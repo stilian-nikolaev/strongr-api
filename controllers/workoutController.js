@@ -31,7 +31,7 @@ router.post('/', authenticate, validateWorkout, (req, res) => {
 router.put('/:id', authenticate, authorize, validateWorkout, (req, res) => {
     workoutService.edit(req.params.id, req.body)
         .then(() => res.json({ message: 'Successfully edited workout' }))
-        .catch(error => es.status(400).json(error));
+        .catch(error => res.status(400).json(error));
 })
 
 router.delete('/:id', authenticate, authorize, (req, res) => {

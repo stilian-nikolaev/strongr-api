@@ -8,7 +8,7 @@ function generateAccessToken(user) {
 
 module.exports = {
     async register(reqBody) {
-        const existingUser = User.findOne({ email: reqBody.email });
+        const existingUser = await User.findOne({ email: reqBody.email });
 
         if (existingUser) {
             throw { message: 'There is an existing acount registered with this email' }
@@ -22,7 +22,15 @@ module.exports = {
 
         const user = new User({ name: reqBody.name, email: reqBody.email, password: hashedPassword });
 
-        return user.save();
+        try {
+            user.save();
+        } catch (error) {
+            throw { message: 'Error while saving user', error }
+        }
+
+        const accessToken = generateAccessToken(user);
+
+        return accessToken;
 
     },
     async login(reqBody) {
@@ -35,7 +43,7 @@ module.exports = {
         if (!await bcrypt.compare(reqBody.password, user.password)) {
             throw { message: 'Wrong password' }
         }
-        
+
         const accessToken = generateAccessToken(user);
         // console.log(accessToken)
         // const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET)
