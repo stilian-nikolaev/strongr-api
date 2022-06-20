@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/authorize');
+const { validateExercise } = require('../middlewares/validate');
 
 const exerciseService = require('../services/exerciseService');
 const setController = require('./setController');
@@ -24,7 +25,7 @@ router.get('/:id', authenticate, authorize, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
-router.post('/', authenticate, authorize, (req, res) => {
+router.post('/', authenticate, authorize, validateExercise, (req, res) => {
     const workoutId = req.baseUrl.split('/')[2];
 
     exerciseService.create(workoutId, req.body)
@@ -32,7 +33,7 @@ router.post('/', authenticate, authorize, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
-router.patch('/:id', authenticate, authorize, (req, res) => {
+router.patch('/:id', authenticate, authorize, validateExercise, (req, res) => {
     exerciseService.edit(req.params.id, req.body)
         .then(() => res.json({ message: 'Successfully edited exercise' }))
         .catch(error => res.status(400).json(error));

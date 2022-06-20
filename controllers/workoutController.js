@@ -4,7 +4,7 @@ const workoutService = require('../services/workoutService');
 const exerciseController = require('./exerciseController');
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/authorize');
-const validateWorkout = require('../middlewares/validateWorkout');
+const { validateWorkout } = require('../middlewares/validate');
 
 const router = Router();
 

@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/authorize');
+const { validateSet } = require('../middlewares/validate');
 
 const setService = require('../services/setService');
 
@@ -20,7 +21,7 @@ router.get('/:id', authenticate, authorize, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
-router.post('/', authenticate, authorize, (req, res) => {
+router.post('/', authenticate, authorize, validateSet, (req, res) => {
     const exerciseId = req.baseUrl.split('/')[4];
 
     setService.create(exerciseId, req.body)
