@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 function generateAccessToken(user) {
     return {
         token: jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }),
-        expiresIn: process.env.JWT_EXPIRES_IN
+        expiresAt: Date.now() + Number(process.env.JWT_EXPIRES_IN.split('ms')[0])
     }
 }
 
