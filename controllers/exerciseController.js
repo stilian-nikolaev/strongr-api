@@ -33,7 +33,7 @@ router.post('/', authenticate, authorize, validateExercise, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
-router.patch('/:id', authenticate, authorize, validateExercise, (req, res) => {
+router.put('/:id', authenticate, authorize, validateExercise, (req, res) => {
     exerciseService.edit(req.params.id, req.body)
         .then(() => res.json({ message: 'Successfully edited exercise' }))
         .catch(error => res.status(400).json(error));
