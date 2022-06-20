@@ -3,7 +3,10 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 
 function generateAccessToken(user) {
-    return jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' })
+    return {
+        token: jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }),
+        expiresIn: process.env.JWT_EXPIRES_IN
+    }
 }
 
 module.exports = {
@@ -28,10 +31,7 @@ module.exports = {
             throw { message: 'Error while saving user', error }
         }
 
-        const accessToken = generateAccessToken(user);
-
-        return accessToken;
-
+        return generateAccessToken(user);
     },
     async login(reqBody) {
         const user = await User.findOne({ email: reqBody.email });
@@ -43,13 +43,7 @@ module.exports = {
         if (!await bcrypt.compare(reqBody.password, user.password)) {
             throw { message: 'Wrong password' }
         }
-
-        const accessToken = generateAccessToken(user);
-        // console.log(accessToken)
-        // const refreshToken = jwt.sign({ name: user.name }, process.env.REFRESH_TOKEN_SECRET)
-        // console.log(refreshToken);
-
-        return accessToken;
-
+        
+        return generateAccessToken(user);
     }
 }
