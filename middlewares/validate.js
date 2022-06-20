@@ -36,7 +36,7 @@ module.exports = {
     validateSet: (req, res, next) => {
         const validationSchema = Joi.object({
             amount: Joi.number().integer().min(1).max(99).required(),
-            weight: Joi.number().min(0).max(800).required(),
+            weight: Joi.number().min(0).max(999).required(),
             unit: Joi.string().valid('reps', 'sec', 'min').required(),
         })
 
