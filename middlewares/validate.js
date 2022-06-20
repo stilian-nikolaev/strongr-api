@@ -37,7 +37,7 @@ module.exports = {
         const validationSchema = Joi.object({
             amount: Joi.number().integer().min(1).max(99).required(),
             weight: Joi.number().min(0).max(800).required(),
-            unit: Joi.string().trim().valid('reps', 'sec', 'min'),
+            unit: Joi.string().valid('reps', 'sec', 'min').required(),
         })
 
         const { error } = validationSchema.validate(req.body)

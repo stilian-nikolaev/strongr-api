@@ -29,7 +29,7 @@ router.post('/', authenticate, authorize, validateSet, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
-router.put('/:id', authenticate, authorize, (req, res) => {
+router.put('/:id', authenticate, authorize, validateSet, (req, res) => {
     setService.edit(req.params.id, req.body)
         .then(() => res.json({ message: 'Successfully edited set' }))
         .catch(error => res.status(400).json(error));
