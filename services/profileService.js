@@ -13,6 +13,7 @@ module.exports = {
             name: user.name,
             activity: user.activity,
             avatarId: user.avatarId,
+            avatarColor: user.avatarColor,
         }
     },
     async edit(id, reqBody) {

@@ -22,6 +22,11 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true,
         default: 1
+    },
+    avatarColor: {
+        type: String,
+        required: true,
+        default: 'white'
     }
 })
 
