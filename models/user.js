@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'Gym lover'
+    },
+    avatarId: {
+        type: Number,
+        required: true,
+        default: 1
     }
 })
 

@@ -10,4 +10,10 @@ router.get('/', authenticate, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
+router.patch('/', authenticate, (req, res) => {
+    profileService.edit(req.user.id, req.body)
+        .then(profile => res.json(profile))
+        .catch(error => res.status(400).json(error));
+})
+
 module.exports = router;

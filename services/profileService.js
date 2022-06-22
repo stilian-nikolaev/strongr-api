@@ -9,9 +9,20 @@ module.exports = {
         }
 
         return {
+            email: user.email,
             name: user.name,
             activity: user.activity,
-            email: user.email,
+            avatarId: user.avatarId,
         }
-    }
+    },
+    async edit(id, reqBody) {
+        await this.getOne(id)
+       
+        const user = await User.findByIdAndUpdate(id, reqBody);
+
+        return {
+            email: user.email,
+            ...reqBody
+        }
+    },
 }
