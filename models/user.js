@@ -13,6 +13,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    activity: {
+        type: String,
+        required: true,
+        default: 'Gym lover'
+    }
 })
 
 module.exports = mongoose.model('User', userSchema);
