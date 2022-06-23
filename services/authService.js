@@ -45,5 +45,20 @@ module.exports = {
         }
         
         return generateAccessToken(user);
-    }
+    },
+    async changePassword(userId, reqBody) {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            throw { message: 'User not found!' }
+        }
+                
+        if (reqBody.password !== reqBody.repeatPassword) {
+            throw { message: 'Passwords missmatch!' }
+        }
+
+        const hashedPassword = await bcrypt.hash(reqBody.password, 10);
+
+        return User.updateOne({ _id: userId }, { password: hashedPassword } );
+    },
 }
