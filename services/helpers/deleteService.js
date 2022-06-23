@@ -3,6 +3,12 @@ const Exercise = require('../../models/exercise');
 const Set = require('../../models/set');
 
 module.exports = {
+    async deleteWorkouts(userId) {
+        const workouts = await Workout.find({ creatorId: userId });
+       workouts.forEach(async (workout) => {
+        await Workout.findByIdAndDelete(workout._id)
+       })
+    },
     async deleteExercises(workoutId) {
         const workout = await Workout.findById(workoutId);
 

@@ -16,4 +16,16 @@ router.patch('/', authenticate, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
+router.patch('/', authenticate, (req, res) => {
+    profileService.edit(req.user.id, req.body)
+        .then(profile => res.json({ message: 'Successfully edited profile', profile }))
+        .catch(error => res.status(400).json(error));
+})
+
+router.delete('/', authenticate, (req, res) => {
+    profileService.delete(req.user.id)
+        .then(profile => res.json({ message: 'Successfully deleted profile', profile }))
+        .catch(error => res.status(400).json(error));
+})
+
 module.exports = router;

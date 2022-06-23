@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const deleteService = require('./helpers/deleteService');
 
 module.exports = {
     async getOne(id) {
@@ -25,5 +26,12 @@ module.exports = {
             email: user.email,
             ...reqBody
         }
+    },
+    async delete(id) {
+        await this.getOne(id)
+
+        await deleteService.deleteWorkouts(id);
+        
+        return User.findByIdAndDelete(id)
     },
 }
