@@ -48,7 +48,7 @@ module.exports = {
 
         next()
     },
-    validateUser: (req, res, next) => {
+    validateUserRegister: (req, res, next) => {
         const validationSchema = Joi.object({
             email: Joi.string().email().required(),
             password: Joi.string().required(),
@@ -62,6 +62,39 @@ module.exports = {
             repeatPassword: req.body.repeatPassword,
             name: req.body.name
         })
+
+        if (error) {
+            return res.status(400).json({ message: error.details.map(x => x.message).join(', ') })
+        }
+
+        next()
+    },
+    validateChangePassword: (req, res, next) => {
+        const validationSchema = Joi.object({
+            password: Joi.string().required(),
+            repeatPassword: Joi.string().required(),
+        })
+
+        const { error } = validationSchema.validate({
+            password: req.body.password,
+            repeatPassword: req.body.repeatPassword,
+        })
+
+        if (error) {
+            return res.status(400).json({ message: error.details.map(x => x.message).join(', ') })
+        }
+
+        next()
+    },
+    validateUserEdit: (req, res, next) => {
+        const validationSchema = Joi.object({
+            name: Joi.string(),
+            activity: Joi.string(),
+            avatarColor: Joi.string(),
+            avatarId: Joi.number().min(1).max(8)
+        })
+
+        const { error } = validationSchema.validate(req.body, { convert: false })
 
         if (error) {
             return res.status(400).json({ message: error.details.map(x => x.message).join(', ') })

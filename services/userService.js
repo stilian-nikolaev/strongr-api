@@ -24,6 +24,10 @@ module.exports = {
 
         return {
             email: user.email,
+            name: user.name,
+            activity: user.activity,
+            avatarId: user.avatarId,
+            avatarColor: user.avatarColor,
             ...reqBody
         }
     },
