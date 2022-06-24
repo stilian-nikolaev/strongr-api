@@ -10,7 +10,7 @@ module.exports = {
         const { error } = validationSchema.validate({ title: req.body.title })
 
         if (error) {
-            return res.json({ message: error.details.map(x => x.message).join(', ') })
+            return res.status(400).json({ message: error.details.map(x => x.message).join(', ') })
         }
 
         req.body.title = req.body.title.trim()
@@ -26,7 +26,7 @@ module.exports = {
         const { error } = validationSchema.validate({ title: req.body.title })
 
         if (error) {
-            return res.json({ message: error.details.map(x => x.message).join(', ') })
+            return res.status(400).json({ message: error.details.map(x => x.message).join(', ') })
         }
 
         req.body.title = req.body.title.trim()
@@ -43,7 +43,7 @@ module.exports = {
         const { error } = validationSchema.validate({ amount: req.body.amount, weight: req.body.weight, unit: req.body.unit }, {convert: false})
 
         if (error) {
-            return res.json({ message: error.details.map(x => x.message).join(', ') })
+            return res.status(400).json({ message: error.details.map(x => x.message).join(', ') })
         }
 
         next()
