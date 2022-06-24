@@ -40,7 +40,7 @@ module.exports = {
             unit: Joi.string().valid('reps', 'sec', 'min').required(),
         })
 
-        const { error } = validationSchema.validate({ amount: req.body.amount, weight: req.body.weight, unit: req.body.unit })
+        const { error } = validationSchema.validate({ amount: req.body.amount, weight: req.body.weight, unit: req.body.unit }, {convert: false})
 
         if (error) {
             return res.json({ message: error.details.map(x => x.message).join(', ') })
