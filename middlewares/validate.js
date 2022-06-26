@@ -53,7 +53,7 @@ module.exports = {
             email: Joi.string().email().required(),
             password: Joi.string().required(),
             repeatPassword: Joi.string().required(),
-            name: Joi.string().required(),
+            name: Joi.string().min(1).max(30).required(),
         })
 
         const { error } = validationSchema.validate({
@@ -88,7 +88,7 @@ module.exports = {
     },
     validateUserEdit: (req, res, next) => {
         const validationSchema = Joi.object({
-            name: Joi.string(),
+            name: Joi.string().min(1).max(30),
             activity: Joi.string(),
             avatarColor: Joi.string(),
             avatarId: Joi.number().min(1).max(8)
