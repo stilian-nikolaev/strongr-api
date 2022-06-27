@@ -15,6 +15,7 @@ module.exports = {
             activity: user.activity,
             avatarId: user.avatarId,
             avatarColor: user.avatarColor,
+            themeColor: user.themeColor,
         }
     },
     async edit(id, reqBody) {
@@ -28,6 +29,7 @@ module.exports = {
             activity: user.activity,
             avatarId: user.avatarId,
             avatarColor: user.avatarColor,
+            themeColor: user.themeColor,
             ...reqBody
         }
     },

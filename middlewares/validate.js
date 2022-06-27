@@ -91,7 +91,8 @@ module.exports = {
             name: Joi.string().min(1).max(30),
             activity: Joi.string(),
             avatarColor: Joi.string(),
-            avatarId: Joi.number().min(1).max(8)
+            avatarId: Joi.number().min(1).max(8),
+            themeColor: Joi.number().min(0).max(8),
         })
 
         const { error } = validationSchema.validate(req.body, { convert: false })
