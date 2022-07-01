@@ -4,6 +4,7 @@ const workoutController = require('./controllers/workoutController')
 const authController = require('./controllers/authController')
 const userController = require('./controllers/userController')
 
+router.use('/', workoutController);
 router.use('/auth', authController);
 router.use('/workouts', workoutController);
 router.use('/user', userController);
