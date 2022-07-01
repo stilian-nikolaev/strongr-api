@@ -60,5 +60,4 @@ module.exports = {
 
         return Workout.findByIdAndUpdate(workoutId, { exercises: filteredExercises })
     },
-
 }

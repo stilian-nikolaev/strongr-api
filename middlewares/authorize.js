@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
 
     workoutService.getOne(workoutId)
         .then(workout => {
-            if (workout.creatorId !== req.user.id) return res.sendStatus(403);
+            if (workout.creatorId !== req.user.id) return res.status(403).json({ message: 'Unauthorized!' });
 
             next()
         })

@@ -1,9 +1,10 @@
 const { Router } = require('express');
+
+const setService = require('../services/setService');
+
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/authorize');
 const { validateSet } = require('../middlewares/validate');
-
-const setService = require('../services/setService');
 
 const router = Router();
 

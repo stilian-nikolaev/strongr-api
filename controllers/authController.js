@@ -1,7 +1,9 @@
 const { Router } = require('express');
+
+const authService = require('../services/authService');
+
 const authenticate = require('../middlewares/authenticate');
 const { validateUserRegister, validateChangePassword } = require('../middlewares/validate');
-const authService = require('../services/authService');
 
 const router = Router();
 

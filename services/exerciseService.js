@@ -1,6 +1,6 @@
 const Exercise = require('../models/exercise');
-const deleteService = require('./helpers/deleteService');
 const workoutService = require('./workoutService');
+const deleteService = require('./helpers/deleteService');
 
 module.exports = {
     async getAll(workoutId) {
@@ -60,6 +60,4 @@ module.exports = {
 
         return Exercise.updateOne({ _id: exerciseId }, { sets: filteredSets })
     }
-
-
 }

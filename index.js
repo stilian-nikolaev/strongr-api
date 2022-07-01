@@ -4,13 +4,13 @@ const express = require('express')
 
 const routes = require('./routes')
 const configApp = require('./config/express')
-const configDb = require('./config/mongo')
+const configDatabase = require('./config/mongo')
 
 const app = express();
 
 configApp(app)
-configDb()
+configDatabase()
 
 app.use(routes)
 
-app.listen(5000)
+app.listen(process.env.PORT)

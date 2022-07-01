@@ -1,13 +1,13 @@
 const { Router } = require('express');
+
+const setController = require('./setController');
+const exerciseService = require('../services/exerciseService');
+
 const authenticate = require('../middlewares/authenticate');
 const authorize = require('../middlewares/authorize');
 const { validateExercise } = require('../middlewares/validate');
 
-const exerciseService = require('../services/exerciseService');
-const setController = require('./setController');
-
 const router = Router();
-
 
 router.use('/:id/sets', setController)
 
