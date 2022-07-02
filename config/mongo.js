@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = () => {
     mongoose.connect(process.env.DATABASE_URL, {
-        serverSelectionTimeoutMS: 5000, // Keep trying to send operations for 5 seconds
+        serverSelectionTimeoutMS: 5000,
         socketTimeoutMS: 5000
     })
 
