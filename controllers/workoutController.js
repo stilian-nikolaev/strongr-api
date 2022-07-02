@@ -41,4 +41,8 @@ router.delete('/:id', authenticate, authorize, (req, res) => {
         .catch(error => res.status(400).json(error));
 })
 
+router.all('*', (req, res) => {
+    res.status(400).send('Method not supported for this route');
+});
+
 module.exports = router;
