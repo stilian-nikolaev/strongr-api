@@ -5,7 +5,7 @@ module.exports = (app) => {
     app.use(express.json());
 
     app.use(cors({
-        origin: '*'
+        origin: 'https://strongr-workout-planner.netlify.app'
     }));
 
     return app;
