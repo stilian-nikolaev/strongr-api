@@ -1,6 +1,5 @@
-DATABASE_URL=mongodb://localhost/workouts
+DATABASE_URL=mongodb://localhost:27017/workouts
 
-ACCESS_TOKEN_SECRET=
-REFRESH_TOKEN_SECRET=
+ACCESS_TOKEN_SECRET=notsosecretsecret
 
 JWT_EXPIRES_IN=3600000ms
