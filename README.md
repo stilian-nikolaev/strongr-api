@@ -4,6 +4,8 @@
 
 <br/>
 
+[Api link](https://api-strongr.herokuapp.com/)
+
 ## Project Description
 
 - Api used by the Strongr frontend application
@@ -21,10 +23,11 @@
 - JsonWebToken - used for authorization and to determine if a user is the owner of a certain workout 
 - Joi - validate incoming mutating data
 
-## Demo
+## Functionality
 
-[Api link](https://api-strongr.herokuapp.com/)
-
-
-
-
+- /auth - route for logging in, registering or changing password
+- /workouts/id/exercises/id/sets/id - nested RESTful api structure for accessing workouts and their exercises and sets
+- /user - route for getting user data such as name, activity, avatar, theme color choice or editing or deleting user
+- when authenticated a token is returned, containing the user id, and it is used to associate the workouts created by the user and return them when requested
+- most routes are guarded with an authorization middleware checking if the user sending the request is the owner of the entity
+- an additional helper delete service is provided in order to decouple code and keep the principle of separation of concerns - this service is for deleting children entities when deleting a parent entity(for example when deleting an exercise we call this service in order to delete all the sets that were associated with this exercise) 
